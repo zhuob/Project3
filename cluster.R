@@ -1,3 +1,5 @@
+setwd("/home/zhuob/Project3/Data")
+
 
 leaf <- read.csv("leaf.csv", header=T)
 mydata <- leaf[, c(-1,-2)]
@@ -15,9 +17,9 @@ validation <- mydata[-id,] # validation data
 
 # Determine number of clusters
 wss <- (nrow(mydata)-1)*sum(apply(mydata,2,var))
-for (i in 2:15) wss[i] <- sum(kmeans(mydata, 
+for (i in 2:20) wss[i] <- sum(kmeans(mydata, 
                                      centers=i)$withinss)
-plot(1:15, wss, type="b", xlab="Number of Clusters",
+plot(1:20, wss, type="b", xlab="Number of Clusters",
      ylab="Within groups sum of squares")
 
 
@@ -58,23 +60,35 @@ mydata1 <- scale(mydata1)
 
 # seed is set to use the same training and 
 # validation datasets and make the two methods comparable.
-set.seed(100)
-id <- sample(1:dim(mydata)[1], 300)
-training <- mydata1[id, ]  # training data
-validation <- mydata1[-id,] # validation data
+# set.seed(100)
+# id <- sample(1:dim(mydata)[1], 300)
+# training <- mydata1[id, ]  # training data
+# validation <- mydata1[-id,] # validation data
 
 
 library(mclust)
 
-fit <- Mclust(training, G= 1:18)
+fit <- Mclust(mydata1, G= 1:18)
 names(fit)
 fit$G # optimal number of clustering
+head(fit$data)
+fit$classification
 
-fit$parameters
+result <- data.frame(leaf[, 1:2], classification = fit$classification)
+
+head(result, 30)
+aa <- t(table(result[,3], result[,1]))
+
+# to find the max number of observations of a particular species belonging to
+# the new cluster. for example, species 1 has 11  out of 12 falling into group 2
+predict <- max.col(aa, ties.method= "first")
+percentage <- round(apply(aa, 1, max)/rowSums(aa),2)
+cbind(predict, percentage)
+
 
 ## prediction
-pre <- predict(fit, validation)
-pre$classification
+# pre <- predict(fit, validation)
+# pre$classification
 plot(fit, what="classification" )
 
 
