@@ -83,8 +83,14 @@ aa <- t(table(result[,3], result[,1]))
 # the new cluster. for example, species 1 has 11  out of 12 falling into group 2
 predict <- max.col(aa, ties.method= "first")
 percentage <- round(apply(aa, 1, max)/rowSums(aa),2)
-cbind(predict, percentage)
+result.table <- cbind(aa, predict, percentage)
+dim(result.table)
+colnames(result.table) <- c("cluster1", "cluster2", "cluster3", "cluster4", "cluster5", 
+                              "cluster6", "membership", "percentage")
+species <- row.names(result.table)
+result.table <- data.frame(species, result.table)
 
+write.csv(result.table,"mclust.result.csv")
 
 ## prediction
 # pre <- predict(fit, validation)
