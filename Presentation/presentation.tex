@@ -80,7 +80,7 @@ To group the leaves at higher level
 \item Definition $\rightarrow$ Assigning $n$ observations into $k$ clusters
 \item Requires to specify the number of clusters $k$ to extract
 \item Similarity criterion $\rightarrow$ proximity  to	the	mean of each cluster
-\item Assignment method $\rightarrow$ minimize	distance	from the data to the means of the clusters
+\item Assignment method $\rightarrow$ minimize	euclidean distance from the data to the means of the clusters
 \end{itemize}
 \end{frame}
 
@@ -182,7 +182,7 @@ Two possible solutions
 \item Probability of generating an object in cluster
 \end{itemize}
 \item Use EM algorithm
-\item Missing information: Cluster membership
+
 
  \end{itemize}
 \end{center}
@@ -192,27 +192,7 @@ Two possible solutions
 
 
 
-\begin{frame}
-\frametitle{Algorithm Description}
-\textbf{EM Algorithm}
-\begin{center}
-  \begin{itemize}
-  \item \textbf{Initialization}: Choose means at random
-\item \textbf{E step}:
-\begin{itemize}
-\item For all points and means, compute P(point$|$mean)
-\item P(mean$|$point) = P(mean) P(point$|$mean) / P(point)
-\end{itemize}
-\item \textbf{M step}:
-\begin{itemize}
-\item Each mean = Weighted avg. of points
-\item Weight = Prob(mean$|$point)
-\end{itemize}
-\item Repeat until convergence
-\item Guaranteed to converge to local optimum
-\end{itemize}
-\end{center}
-\end{frame}
+
 
 
 \begin{frame}
@@ -225,8 +205,7 @@ Two possible solutions
 \begin{itemize}
 \item Selects the optimal model according to BIC for EM initialized by Guassian Mixture Models
 \item Chooses the model and number of clusters with the largest BIC
-\item Input $\rightarrow$ components and the covariance structures
-\item Output $\rightarrow$ list with components describing the estimated model
+
 \end{itemize}
 \end{itemize}
   
@@ -265,30 +244,78 @@ Optimal cluster number $\rightarrow$ 6 \\
                               %---- Discussion ----%
 
 
-\section{Discussion, Obstacles and Solutions}
+\section{Assumptions/Limitations and Scalability}
 \begin{frame}
 \begin{center}
-\textbf{Discussion, Obstacles and Solutions}
+\textbf{Assumptions/Limitations and Scalability}
 \end{center} 
 \end{frame}
-\begin{frame}
-\frametitle{Discussion}
 
-
-\end{frame}
 
 \begin{frame}
-\frametitle{Obstacles and Solutions}
+\frametitle{Assumption/Limitations}
+\begin{itemize}
+\item Assumptions
+\begin{itemize}
+\item Normality
+\end{itemize}
+\item Limitations
+\begin{itemize}
+\item K-means Clustering
+\begin{itemize}
+\item comparable size of clusters
+\end{itemize}
+\item Model-based clustering
+\begin{itemize}
+\item provides only 10 of the 14 possible variance-covariance structures
+\item Cannot handle 'NA' problem
+\end{itemize}
 
+\end{itemize}
+
+
+\end{itemize}
 \end{frame}
 
 
+\begin{frame}
+\frametitle{Scalability}
+\begin{itemize}
+\item k-Means is faster than hierarchical clustering
+\item function $mclust$ is able to cope with large datasets
+\item Mclust can use sampled data in the hierarchical phase before applying EM to extend the method to larger datasets
+\end{itemize}
+\end{frame}
+
+\section{ }
+\begin{frame}
+\begin{center}
+Questions ?
+  \end{center}
+\end{frame}
 
 
-
-
-
-
+\begin{frame}
+\frametitle{EM Algorithm Description}
+\textbf{EM Algorithm}
+\begin{center}
+  \begin{itemize}
+  \item \textbf{Initialization}: Choose means at random
+\item \textbf{E step}:
+\begin{itemize}
+\item For all points and means, compute P(point$|$mean)
+\item P(mean$|$point) = P(mean) P(point$|$mean) / P(point)
+\end{itemize}
+\item \textbf{M step}:
+\begin{itemize}
+\item Each mean = Weighted avg. of points
+\item Weight = Prob(mean$|$point)
+\end{itemize}
+\item Repeat until convergence
+\item Guaranteed to converge to local optimum
+\end{itemize}
+\end{center}
+\end{frame}
 
 
 
