@@ -1,0 +1,288 @@
+\documentclass{beamer}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{epic}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{multirow}
+\usetheme{JuanLesPins}
+\usecolortheme{default}
+\usepackage{multicol}
+
+
+
+\newtheorem{question}{Question}[section]
+
+\title{Identify Leaf clusters}
+
+
+\author{Addison James, Bin Zhuo, Feifei Lei, Nandhita Narendra Babu}
+
+\date{June 4th, 2014}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{\contentsname}
+\tableofcontents
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+\frametitle{Overview}
+\begin{itemize}
+\item To identify the leaf clusters from leaf data set
+
+\item Leaf dataset
+\begin{itemize}
+\item Collection of shape and texture features extracted from digital images of leaf specimens 
+\item A total of 40 different plant species
+\item Only 30 of those were present in the data provided
+\item 340 observations
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Methods}
+"All methods are concerned with using the inherent structures in the data to best organize the data into groups of maximum commonality" 
+\\ - Jasonb in "A Tour of Machine Learning Algorithms" \\
+\begin{itemize}
+\item \textbf{K-means Clustering}  \\ 
+To make 30 clusters to see how well this approach recovers the real data
+\item \textbf{Model-based clustering}  \\
+To group the leaves at higher level 
+\end{itemize}
+\end{frame}
+
+
+%-------------------------------------------------------------------------------%
+
+
+
+\section{K-Means Clustering}
+\begin{frame}
+\begin{center}
+\textbf{K-Means Clustering}
+\end{center} 
+\end{frame}
+
+\begin{frame}
+\frametitle{Method Description} 
+\begin{itemize}
+\item Definition $\rightarrow$ Assigning $n$ observations into $k$ clusters
+\item Requires to specify the number of clusters $k$ to extract
+\item Similarity criterion $\rightarrow$ proximity  to	the	mean of each cluster
+\item Assignment method $\rightarrow$ minimize	distance	from the data to the means of the clusters
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{Algorithm Description}
+\begin{center}
+\begin{enumerate}
+\item Set Initial Cluster Means
+\item Assign each datum to	the	cluster	with	
+the	nearest	mean
+\item Calculate	the	new	mean of each cluster
+\item Repeat steps 2-3 until convergence	
+
+\end{enumerate}
+\end{center}
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Procedure}
+\begin{itemize}
+\item function $kmeans$ : To cluster leaves into species
+\item $k$ = 30 clusters $\rightarrow$ cluster all the observations into 30 separate species based on the 14 covariates available
+\item Covariates : eccentricity, aspect ratio, elongation, solidity, stochastic convexity, isoperimetric factor, maximal indentation depth, lobedness, average intensity, average contrast, smoothness, third moment, uniformity, and entropy
+
+\end{itemize}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{K-means Clustering result}
+\begin{center}
+  
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{K-means Clustering result}
+\begin{center}
+  
+\end{center}
+\end{frame}
+
+
+
+%---------------------------------------------------------------------------------                    
+
+\section{Model-based Clustering}
+\begin{frame}
+\begin{center}
+\textbf{Model-based Clustering}
+\end{center} 
+\end{frame}
+\begin{frame}
+\frametitle{Method description}
+\begin{center}
+ \begin{itemize}
+ \item Basic idea: Clustering as probability estimation
+\item One model for each cluster
+\item Generative model:
+\begin{itemize}
+\item Probability of selecting a cluster
+\item Probability of generating an object in cluster
+\end{itemize}
+\item Use EM algorithm
+\item Missing information: Cluster membership
+
+ \end{itemize}
+\end{center}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+\frametitle{Algorithm Description}
+\textbf{EM Algorithm}
+\begin{center}
+  \begin{itemize}
+  \item \textbf{Initialization}: Choose means at random
+\item \textbf{E step}:
+\begin{itemize}
+\item For all points and means, compute P(point$|$mean)
+\item P(mean$|$point) = P(mean) P(point$|$mean) / P(point)
+\end{itemize}
+\item \textbf{M step}:
+\begin{itemize}
+\item Each mean = Weighted avg. of points
+\item Weight = Prob(mean|point)
+\end{itemize}
+\item Repeat until convergence
+\item Guaranteed to converge to local optimum
+\end{itemize}
+\end{center}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Procedure}
+\begin{center}
+\begin{itemize}
+\item Covariance parameterization and number of clusters are selected via BIC
+\item Clustering using normal mixture modeling via EM algorithm
+\item $Mclust$ function 
+\begin{itemize}
+\item Selects the optimal model according to BIC for EM initialized by Guassian Mixture Models
+\item Chooses the model and number of clusters with the largest BIC
+\item Input $\rightarrow$ components and the covariance structures
+\item Output $\rightarrow$ list with components describing the estimated model
+\end{itemize}
+\end{itemize}
+  
+\end{center}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Model-based clustering results}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Model-based clustering results}
+\begin{center}
+
+\end{center}
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+%----------------------------------------------------------------------------------%
+
+
+
+                              %---- Discussion ----%
+
+
+\section{Discussion, Obstacles and Solutions}
+\begin{frame}
+\begin{center}
+\textbf{Discussion, Obstacles and Solutions}
+\end{center} 
+\end{frame}
+\begin{frame}
+\frametitle{Discussion}
+
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Obstacles and Solutions}
+
+\end{frame}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
