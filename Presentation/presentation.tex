@@ -123,7 +123,18 @@ the	nearest	mean
 \begin{frame}
 \frametitle{K-means Clustering result}
 \begin{center}
-  
+Two possible solutions
+\begin{itemize}
+    \item First solution
+       \begin{itemize}
+  \item examine each cluster and assigns a species number to each cluster based on the most frequent species in the cluster
+  \item can fail to create a one-to-one relationship between the species and cluster $\rightarrow$ there may be a tie or two different clusters may be assigned to the same species
+       \end{itemize}
+    \item Second solution
+        \begin{itemize}
+  \item examine each species and assign the species to the clusters, but reversing the role of clusters and species
+        \end{itemize}
+        \end{itemize}
 \end{center}
 \end{frame}
 
@@ -131,6 +142,20 @@ the	nearest	mean
 \begin{frame}
 \frametitle{K-means Clustering result}
 \begin{center}
+\begin{itemize}
+\item Result from First Method
+\begin{itemize}
+\item 138 of the 340 observations (41\%) ended up in the “correct” cluster
+\item successfully assigned 19 of the 30 clusters (63\%) to a species
+\end{itemize}
+\item Result from Second Method
+\begin{itemize}
+\item less optimistic evaluation
+\item 126 observations were “correctly” clustered (37\%)
+\item 17 of the 30 species were assigned a cluster (57\%)
+\item poor job of grouping leaves of the same species based on the known covariates
+\end{itemize}
+\end{itemize}
   
 \end{center}
 \end{frame}
@@ -214,7 +239,9 @@ the	nearest	mean
 \begin{frame}
 \frametitle{Model-based clustering results}
 \begin{center}
-
+\begin{itemize}
+\item Optimal cluster number $\rightarrow$ 6
+\end{itemize}
 \end{center}
 \end{frame}
 
